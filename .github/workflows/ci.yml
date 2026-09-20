@@ -82,5 +82,4 @@ jobs:
           file: ./app/backend/Dockerfile
           push: true
           tags: ${{ secrets.NEXUS_URL }}/ecommerce-backend:v4
-```
 
