@@ -349,6 +349,8 @@ Nexus is hosted separately from the Kubernetes cluster.
 # 🔍 SonarQube
 
 SonarQube is integrated into the CI pipeline to perform automated code-quality and security analysis.
+<img width="1024" height="299" alt="image" src="https://github.com/user-attachments/assets/3f239092-56b5-4ca2-bd5a-71b265ceb6fb" />
+
 
 The pipeline checks the backend before the Docker image is built.
 
