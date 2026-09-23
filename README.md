@@ -46,9 +46,7 @@ GitHub Actions
 
 ### 📐 CloudCommerce Architecture Diagram
 
-<p align="center">
-  <img src="docs/images/cloudcommerce-architecture.png" alt="CloudCommerce Architecture Diagram" width="100%">
-</p>
+<img width="1531" height="1829" alt="CloudCommerce Architecture" src="https://github.com/user-attachments/assets/a9fed05d-b707-461d-93a8-a77e8af07c33" />
 
 ---
 
