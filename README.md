@@ -48,9 +48,7 @@ GitHub Actions
 
 > **Image location in the repository:** `docs/images/cloudcommerce-architecture.png`
 
-<p align="center">
-  <img src="docs/images/cloudcommerce-architecture.png" alt="CloudCommerce Architecture Diagram" width="100%">
-</p>
+<img width="1531" height="1829" alt="CloudCommerce Architecture" src="https://github.com/user-attachments/assets/f285055d-ef46-46ce-9a47-e6e8cd26c146" />
 
 ---
 
@@ -140,9 +138,8 @@ This keeps CI and CD responsibilities separated.
 
 > **Image location in the repository:** `docs/images/argocd-dashboard.png`
 
-<p align="center">
-  <img src="docs/images/argocd-dashboard.png" alt="CloudCommerce ArgoCD Dashboard" width="90%">
-</p>
+<img width="1854" height="930" alt="image" src="https://github.com/user-attachments/assets/b1f6d5e2-c04e-4d6d-bf93-0baf32820e8e" />
+
 
 ---
 
@@ -354,6 +351,9 @@ Using Git SHA tags provides immutable, traceable application versions.
 
 > **Note:** The current lab environment uses an HTTP/insecure Nexus registry configuration. A production deployment should use HTTPS/TLS.
 
+
+<img width="1865" height="564" alt="image" src="https://github.com/user-attachments/assets/6e34af80-e734-46b3-998a-e54f59ad71c6" />
+
 ---
 
 # 🔍 SonarQube
@@ -369,6 +369,8 @@ The analysis covers:
 - Test coverage
 
 The SonarQube stage runs before the Docker image is built.
+
+<img width="1024" height="299" alt="image" src="https://github.com/user-attachments/assets/9c802875-596f-4c7f-8d97-08714ed49223" />
 
 ---
 
