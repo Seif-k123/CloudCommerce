@@ -1,4 +1,3 @@
-
 name: CloudCommerce CI
 
 on:
@@ -81,5 +80,4 @@ jobs:
           context: ./app/backend
           file: ./app/backend/Dockerfile
           push: true
-          tags: ${{ secrets.NEXUS_URL }}/ecommerce-backend:v4
-
+          tags: ${{ secrets.NEXUS_URL }}/ecommerce-backend:${{ github.sha }}
