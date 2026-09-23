@@ -136,7 +136,7 @@ This keeps CI and CD responsibilities separated.
 
 ### 📸 ArgoCD Dashboard
 
-> **Image location in the repository:** `docs/images/argocd-dashboard.png`
+> **Image location in the repository:** 
 
 <img width="1854" height="930" alt="image" src="https://github.com/user-attachments/assets/b1f6d5e2-c04e-4d6d-bf93-0baf32820e8e" />
 
