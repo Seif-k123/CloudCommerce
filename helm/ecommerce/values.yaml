@@ -1,30 +1,23 @@
 backend:
   replicas: 2
-
   image:
     repository: 107.21.92.37:8082/ecommerce-backend
-    tag: v4
+    tag: a5d3a8a7c02cae47cf60e95f0f5dd366fb5c26d3
     pullPolicy: IfNotPresent
-
   imagePullSecrets:
     - name: nexus-registry-secret
-
   service:
     type: ClusterIP
     port: 5000
-
   strategy:
     type: RollingUpdate
     maxUnavailable: 0
     maxSurge: 1
-
   nodeSelector:
     workload: application
-
   serviceAccount:
     create: false
     name: backend-sa
-
   resources:
     requests:
       cpu: "100m"
@@ -32,70 +25,53 @@ backend:
     limits:
       cpu: "500m"
       memory: "512Mi"
-
   config:
     configMapName: backend-config
     secretName: backend-secret
-
     data:
       DB_HOST: "postgres"
       DB_PORT: "5432"
       DB_NAME: "ecommerce"
-
   probes:
     startup:
       path: /liveness
       failureThreshold: 30
       periodSeconds: 5
       timeoutSeconds: 2
-
     liveness:
       path: /liveness
       periodSeconds: 10
       timeoutSeconds: 2
       failureThreshold: 3
-
     readiness:
       path: /readiness
       periodSeconds: 5
       timeoutSeconds: 2
       failureThreshold: 3
-
   hpa:
     enabled: true
-
     minReplicas: 3
     maxReplicas: 10
-
     behavior:
       scaleUp:
         stabilizationWindowSeconds: 0
-
       scaleDown:
         stabilizationWindowSeconds: 60
-
     cpu:
       targetUtilization: 70
-
-
 frontend:
   replicas: 3
-
   image:
     repository: ecommerce-frontend
     tag: v1
     pullPolicy: IfNotPresent
-
   service:
     type: ClusterIP
     port: 80
-
   config:
     configMapName: frontend-config
-
     data:
       API_URL: "http://backend:5000"
-
   resources:
     requests:
       cpu: "50m"
@@ -103,25 +79,18 @@ frontend:
     limits:
       cpu: "200m"
       memory: "256Mi"
-
-
 ingress:
   enabled: true
-
   className: nginx
-
   host: ecommerce.local
-
   paths:
     - path: /api
       pathType: Prefix
       service:
         name: backend
         port: 5000
-
     - path: /
       pathType: Prefix
       service:
         name: frontend
         port: 80
-
