@@ -1,22 +1,22 @@
 # ☁️ CloudCommerce
 
-> **Production-inspired Cloud-Native E-Commerce Platform built with Kubernetes, Helm, GitHub Actions, Nexus, SonarQube, and ArgoCD.**
+> **Production-inspired Cloud-Native E-Commerce Platform demonstrating modern CI/CD, GitOps, Kubernetes, security, and automated application delivery.**
 
-CloudCommerce is a cloud-native e-commerce application designed to demonstrate a complete **DevOps and GitOps workflow** — from source code and automated testing to containerization, image management, continuous delivery, and Kubernetes deployment.
+CloudCommerce is a cloud-native e-commerce platform built to demonstrate a realistic **DevOps workflow from source code to a running Kubernetes workload**.
 
-The project focuses on building a realistic deployment platform rather than simply running an application inside Kubernetes.
+The project combines automated testing, SonarQube analysis, Docker image management with Nexus, Helm-based Kubernetes deployment, and ArgoCD GitOps synchronization.
 
 ---
 
 ## 🏗️ Architecture
 
-CloudCommerce follows a complete CI/CD and GitOps deployment lifecycle:
+CloudCommerce follows a CI → Registry → GitOps → Kubernetes delivery flow:
 
 ```text
 Developer
     │
     ▼
- GitHub
+  GitHub
     │
     ▼
 GitHub Actions
@@ -24,210 +24,236 @@ GitHub Actions
     ├── Tests
     ├── SonarQube Analysis
     ├── Docker Build
-    ├── Push Image to Nexus
+    ├── Push Image → Nexus
     └── Update Helm Image Tag
               │
               ▼
-        GitHub Repository
+       GitHub Repository
               │
               ▼
            ArgoCD
               │
               ▼
-        Kubernetes
+      Kubernetes / Minikube
               │
-        ┌─────┴─────┐
-        ▼           ▼
-    Frontend      Backend
-                    │
-                    ▼
-                PostgreSQL
+       ┌──────┴──────┐
+       ▼             ▼
+   Frontend        Backend
+                      │
+                      ▼
+                  PostgreSQL
 ```
 
-### 📐 CloudCommerce Architecture Diagram
+### 📐 Architecture Diagram
 
-<img width="1531" height="1829" alt="CloudCommerce Architecture" src="https://github.com/user-attachments/assets/a9fed05d-b707-461d-93a8-a77e8af07c33" />
+> **Image location in the repository:** `docs/images/cloudcommerce-architecture.png`
+
+<p align="center">
+  <img src="docs/images/cloudcommerce-architecture.png" alt="CloudCommerce Architecture Diagram" width="100%">
+</p>
 
 ---
 
-# 🚀 Key Features
+## 🚀 Key Features
 
-### 🔄 Complete CI/CD Pipeline
+- 🔄 Automated CI/CD with GitHub Actions
+- 🧪 Automated backend testing with Jest
+- 🔍 SonarQube code quality and security analysis
+- 🐳 Docker containerization
+- 📦 Private Docker registry with Nexus Repository
+- ☸️ Kubernetes orchestration
+- 📦 Helm-based Kubernetes deployments
+- 🌿 GitOps with ArgoCD
+- 📈 Horizontal Pod Autoscaling
+- 🔐 Kubernetes RBAC and NetworkPolicies
+- 🛡️ Non-root container execution
+- ❤️ Startup, liveness, and readiness probes
+- 🔁 RollingUpdate deployments
+- 🔎 Git SHA-based image versioning
+- ⚡ Path-based pipeline optimization
 
-CloudCommerce implements an automated pipeline using GitHub Actions:
+---
+
+# 🔄 CI/CD Pipeline
+
+Every backend change pushed to `main` can follow this automated flow:
 
 ```text
 Code Push
-   ↓
+    ↓
 Backend Tests
-   ↓
+    ↓
 SonarQube Analysis
-   ↓
+    ↓
 Docker Build
-   ↓
+    ↓
 Push Image to Nexus
-   ↓
+    ↓
 Update Helm Image Tag
-   ↓
+    ↓
 Git Commit
-   ↓
+    ↓
 ArgoCD Auto Sync
-   ↓
-Kubernetes Deployment
+    ↓
+Kubernetes Rollout
 ```
 
-The Docker image is tagged using the **Git commit SHA**, providing immutable and traceable image versions.
+Docker images are tagged using the **Git commit SHA**, creating a traceable relationship between source code, container image, and deployment.
+
+```text
+Git Commit
+    ↕
+Docker Image
+    ↕
+Helm Release
+    ↕
+Kubernetes Workload
+```
 
 ---
 
-### 🌿 GitOps with ArgoCD
+# 🌿 GitOps with ArgoCD
 
-ArgoCD is responsible for continuously synchronizing the Kubernetes environment with the Git repository.
-
-The deployment process follows:
+ArgoCD continuously reconciles the Kubernetes cluster with the desired state stored in Git.
 
 ```text
-Git Repository
-      │
-      │ Desired State
-      ▼
-    ArgoCD
-      │
-      │ Auto Sync
-      ▼
+GitHub Repository
+       │
+       │ Desired State
+       ▼
+     ArgoCD
+       │
+       │ Auto Sync
+       ▼
  Kubernetes Cluster
 ```
 
-GitHub Actions does **not** directly deploy to Kubernetes using `kubectl`.
+GitHub Actions does **not** directly deploy the application using `kubectl`.
 
 Instead:
 
 > **Git is the source of truth.**
 
-This provides a clean separation between CI and CD.
+This keeps CI and CD responsibilities separated.
 
 ### 📸 ArgoCD Dashboard
 
+> **Image location in the repository:** `docs/images/argocd-dashboard.png`
 
-<img width="1858" height="922" alt="image" src="https://github.com/user-attachments/assets/ce5b3866-cf4e-441d-a6ee-2b16cad1b740" />
-
+<p align="center">
+  <img src="docs/images/argocd-dashboard.png" alt="CloudCommerce ArgoCD Dashboard" width="90%">
+</p>
 
 ---
 
 # 🛠️ Technology Stack
 
-| Category           | Technology                            |
-| ------------------ | ------------------------------------- |
-| Application        | Node.js / Express                     |
-| Frontend           | HTML / Nginx                          |
-| Backend            | Node.js 22                            |
-| Database           | PostgreSQL                            |
-| Containers         | Docker                                |
-| Container Registry | Nexus Repository                      |
-| Orchestration      | Kubernetes                            |
-| Packaging          | Helm                                  |
-| GitOps             | ArgoCD                                |
-| CI                 | GitHub Actions                        |
-| Code Quality       | SonarQube                             |
-| Ingress            | NGINX Ingress Controller              |
-| Autoscaling        | Kubernetes HPA                        |
-| Security           | RBAC + NetworkPolicies                |
-| Configuration      | ConfigMaps + Kubernetes Secrets       |
-| Health Management  | Startup / Liveness / Readiness Probes |
+| Category | Technology |
+|---|---|
+| Backend | Node.js 22 / Express |
+| Frontend | HTML / Nginx |
+| Database | PostgreSQL |
+| Containers | Docker |
+| Registry | Nexus Repository |
+| Orchestration | Kubernetes |
+| Packaging | Helm |
+| GitOps | ArgoCD |
+| CI | GitHub Actions |
+| Code Quality | SonarQube |
+| Ingress | NGINX Ingress Controller |
+| Autoscaling | Kubernetes HPA |
+| Security | RBAC / NetworkPolicies |
+| Configuration | ConfigMaps / Secrets |
+| Health Management | Startup / Liveness / Readiness Probes |
 
 ---
 
 # ☸️ Kubernetes Architecture
 
-CloudCommerce runs inside the `ecommerce` namespace.
-
-### Application Components
+CloudCommerce runs in the `ecommerce` namespace.
 
 ```text
-                    Ingress
-                       │
-             ┌─────────┴─────────┐
-             │                   │
-             ▼                   ▼
-        Frontend              Backend
-        Service               Service
-             │                   │
-             ▼                   ▼
-        Frontend Pods        Backend Pods
-                                 │
-                                 ▼
-                            PostgreSQL
+                    NGINX Ingress
+                         │
+              ┌──────────┴──────────┐
+              ▼                     ▼
+         Frontend                Backend
+          Service                Service
+              │                     │
+              ▼                     ▼
+       Frontend Pods          Backend Pods
+                                    │
+                                    ▼
+                               PostgreSQL
 ```
 
-### Backend
+## Backend
 
-* Node.js 22
-* Express
-* 2 configured replicas
-* HPA enabled
-* Service exposed internally on port `5000`
-* Startup probe
-* Liveness probe
-* Readiness probe
-* Resource requests and limits
-* Dedicated ServiceAccount
-* Node selector
-* NetworkPolicy restrictions
-* RollingUpdate strategy
+- Node.js 22
+- Express
+- Kubernetes Service on port `5000`
+- HPA: 3–10 replicas
+- Startup probe
+- Liveness probe
+- Readiness probe
+- CPU and memory requests/limits
+- Dedicated ServiceAccount
+- RBAC permissions
+- NetworkPolicy restrictions
+- RollingUpdate strategy
+- Non-root container execution
 
-### Frontend
+## Frontend
 
-* Nginx
-* 3 replicas
-* ClusterIP Service
-* Kubernetes Ingress routing
+- Nginx
+- 3 replicas
+- ClusterIP Service
+- Exposed through NGINX Ingress
 
-### PostgreSQL
+## PostgreSQL
 
-* Internal database service
-* Backend-only access through NetworkPolicy
-* Service exposed internally on port `5432`
+- Internal database service
+- Port `5432`
+- Backend-only access through NetworkPolicy
 
 ---
 
-# 📈 Autoscaling
+# 📈 Horizontal Pod Autoscaling
 
 The backend uses Kubernetes **Horizontal Pod Autoscaler (HPA)**.
 
-```text
-Minimum replicas: 3
-Maximum replicas: 10
-CPU target:       70%
-```
-
-Conceptually:
+| Setting | Value |
+|---|---:|
+| Minimum replicas | 3 |
+| Maximum replicas | 10 |
+| CPU target | 70% |
 
 ```text
-              CPU Usage
-                  │
-                  ▼
-             ┌─────────┐
-             │   HPA   │
-             └────┬────┘
-                  │
-        ┌─────────┴─────────┐
-        ▼                   ▼
-   Scale Up              Scale Down
+             CPU Utilization
+                    │
+                    ▼
+                 ┌─────┐
+                 │ HPA │
+                 └──┬──┘
+                    │
+          ┌─────────┴─────────┐
+          ▼                   ▼
+       Scale Up            Scale Down
 ```
 
-This allows the backend workload to automatically adapt to changing CPU utilization.
+The HPA allows the backend workload to adapt automatically to CPU utilization.
 
 ---
 
 # 🔐 Security
 
-Security is implemented at multiple layers.
+Security is implemented across multiple layers.
 
-### Network Security
+## Network Security
 
-The cluster uses Kubernetes **NetworkPolicies** following a default-deny approach.
+NetworkPolicies use a **default-deny** approach.
 
-Traffic is explicitly allowed between:
+Allowed application flow:
 
 ```text
 Ingress / Frontend
@@ -239,19 +265,17 @@ Ingress / Frontend
     PostgreSQL
 ```
 
-DNS traffic required by workloads is also explicitly allowed.
+DNS traffic required by workloads is explicitly allowed.
 
-### RBAC
+## RBAC
 
-The backend uses a dedicated Kubernetes ServiceAccount:
+The backend uses a dedicated ServiceAccount:
 
 ```text
 backend-sa
 ```
 
-with limited permissions instead of using unrestricted access.
-
-The ServiceAccount is allowed to access Pods with:
+with limited Pod permissions:
 
 ```text
 get
@@ -259,13 +283,11 @@ list
 watch
 ```
 
-### Container Security
+## Container Security
 
 The backend container runs as the non-root `node` user.
 
-### Resource Controls
-
-The backend defines CPU and memory requests and limits to provide predictable resource allocation.
+## Resource Controls
 
 ```text
 Requests:
@@ -277,50 +299,46 @@ CPU:    500m
 Memory: 512Mi
 ```
 
-### Secrets
+## Secrets
 
-Sensitive credentials are kept outside Git and injected into Kubernetes through Secrets.
+Sensitive credentials are kept outside Git and injected through Kubernetes Secrets.
 
-The Nexus registry credentials are also kept outside the repository.
-
-> Plaintext credentials are never committed to Git.
+> **No plaintext credentials are committed to the repository.**
 
 ---
 
-# 🧪 CI Pipeline
+# 🧪 Testing & Code Quality
 
-Pull Requests run the quality stage before changes are merged.
+The backend uses Jest for automated tests.
+
+The CI pipeline runs tests before the Docker image is built.
 
 ```text
-Pull Request
-     │
-     ▼
 Install Dependencies
-     │
-     ▼
-Run Tests
-     │
-     ▼
-SonarQube Analysis
+        ↓
+    Run Tests
+        ↓
+  SonarQube Scan
+        ↓
+   Docker Build
 ```
 
-For changes pushed to `main`, backend changes continue through the full image delivery pipeline.
+SonarQube is used for automated code-quality and security analysis.
 
-The workflow also uses path-based change detection to avoid unnecessary Docker builds when backend code has not changed.
+Coverage reporting is integrated through the Jest LCOV report.
 
 ---
 
 # 🐳 Docker & Nexus
 
-The backend is packaged as a Docker image.
-
-Images are pushed to a private Nexus Docker registry.
+The backend is packaged as a Docker image and pushed to a private Nexus Docker registry.
 
 ```text
+Nexus Docker Registry
 107.21.92.37:8082
 ```
 
-Image naming follows:
+Image format:
 
 ```text
 ecommerce-backend:<git-sha>
@@ -329,47 +347,28 @@ ecommerce-backend:<git-sha>
 Example:
 
 ```text
-ecommerce-backend:a5d3a8a7c02cae47cf60e95f0f5dd366fb5c26d3
+ecommerce-backend:<commit-sha>
 ```
 
-Using Git SHA tags provides traceability between:
+Using Git SHA tags provides immutable, traceable application versions.
 
-```text
-Git Commit
-     ↕
-Docker Image
-     ↕
-Kubernetes Deployment
-```
-
-
-Nexus is hosted separately from the Kubernetes cluster.
-
-
-
-<img width="1862" height="525" alt="image" src="https://github.com/user-attachments/assets/3e5e3a03-4792-4dd3-b290-325b61992b4a" />
+> **Note:** The current lab environment uses an HTTP/insecure Nexus registry configuration. A production deployment should use HTTPS/TLS.
 
 ---
 
 # 🔍 SonarQube
 
-SonarQube is integrated into the CI pipeline to perform automated code-quality and security analysis.
-<img width="1024" height="299" alt="image" src="https://github.com/user-attachments/assets/3f239092-56b5-4ca2-bd5a-71b265ceb6fb" />
+SonarQube is integrated into GitHub Actions to analyze the backend before container delivery.
 
+The analysis covers:
 
-The pipeline checks the backend before the Docker image is built.
+- Code quality
+- Reliability
+- Security
+- Security hotspots
+- Test coverage
 
-```text
-Code
- ↓
-Tests
- ↓
-SonarQube
- ↓
-Docker Build
-```
-
-This makes code quality analysis part of the automated delivery workflow.
+The SonarQube stage runs before the Docker image is built.
 
 ---
 
@@ -385,16 +384,16 @@ helm/
     └── templates/
 ```
 
-Helm manages the application's Kubernetes configuration including:
+The chart manages:
 
-* Deployments
-* Services
-* ConfigMaps
-* HPA
-* Ingress
-* ServiceAccount
-* RBAC
-* NetworkPolicies
+- Deployments
+- Services
+- ConfigMaps
+- HPA
+- Ingress
+- ServiceAccount
+- RBAC
+- NetworkPolicies
 
 The backend image tag is automatically updated by the CI pipeline.
 
@@ -402,7 +401,7 @@ The backend image tag is automatically updated by the CI pipeline.
 
 # 🔁 Automated Image Promotion
 
-Every backend change pushed to `main` follows this flow:
+A backend change creates a complete delivery chain:
 
 ```text
 Git Commit
@@ -410,14 +409,14 @@ Git Commit
     ▼
 GitHub Actions
     │
-    ├── Test
-    ├── SonarQube
+    ├── Tests
+    └── SonarQube
     │
     ▼
 Docker Build
     │
     ▼
-Nexus
+Nexus Registry
     │
     ▼
 Update Helm values.yaml
@@ -432,13 +431,13 @@ ArgoCD
 Kubernetes
 ```
 
-This creates a traceable deployment chain from source code to running workload.
+This provides end-to-end traceability from source code to the running workload.
 
 ---
 
 # 🧠 Smart Pipeline Behavior
 
-The pipeline avoids unnecessary Docker builds.
+The workflow uses path-based change detection.
 
 ### Documentation / CI-only change
 
@@ -451,7 +450,7 @@ docs/
 Tests + SonarQube
        │
        ▼
-     STOP
+      STOP
 ```
 
 ### Backend change
@@ -473,9 +472,91 @@ Helm Update
        │
        ▼
 ArgoCD
+       │
+       ▼
+Kubernetes
 ```
 
-A manual `workflow_dispatch` trigger is also available when a full pipeline execution is required.
+A manual `workflow_dispatch` trigger is also available for a full pipeline execution.
+
+---
+
+# 🔁 Rolling Updates
+
+The backend Deployment uses Kubernetes **RollingUpdate**:
+
+```yaml
+maxUnavailable: 0
+maxSurge: 1
+```
+
+Deployment flow:
+
+```text
+Old Pods
+   │
+   ▼
+Create New Pod
+   │
+   ▼
+Health Checks
+   │
+   ▼
+New Pod Ready
+   │
+   ▼
+Traffic moves to new version
+```
+
+This allows application versions to be updated without intentionally taking all backend replicas offline.
+
+---
+
+# 🌐 Ingress Routing
+
+NGINX Ingress Controller manages application routing.
+
+Host:
+
+```text
+ecommerce.local
+```
+
+Routes:
+
+```text
+/api/*  → backend:5000
+/*      → frontend:80
+```
+
+Traffic flow:
+
+```text
+User
+ │
+ ▼
+NGINX Ingress
+ │
+ ├── / ──────► Frontend
+ │
+ └── /api ───► Backend
+                    │
+                    ▼
+                PostgreSQL
+```
+
+---
+
+# 🔌 Application Endpoints
+
+The backend exposes health and application endpoints:
+
+| Method | Endpoint | Purpose |
+|---|---|---|
+| GET | `/liveness` | Liveness check |
+| GET | `/readiness` | Readiness check |
+| GET | `/health` | Application health |
+| GET | `/api/products` | Product API |
 
 ---
 
@@ -522,163 +603,62 @@ CloudCommerce/
 
 ---
 
-# 🔌 Application Endpoints
-
-The backend exposes health and application endpoints used by Kubernetes and application testing:
-
-```text
-GET /liveness
-GET /readiness
-GET /health
-GET /api/products
-```
-
-### Kubernetes Probes
-
-```text
-Startup Probe
-     ↓
-/liveness
-
-Liveness Probe
-     ↓
-/liveness
-
-Readiness Probe
-     ↓
-/readiness
-```
-
----
-
-# 🔄 Rolling Updates
-
-The backend Deployment uses a Kubernetes **RollingUpdate** strategy.
-
-```text
-maxUnavailable: 0
-maxSurge:       1
-```
-
-Conceptually:
-
-```text
-Old Backend Pods
-       │
-       ▼
-Create New Pod
-       │
-       ▼
-Health Checks
-       │
-       ▼
-New Pod Ready
-       │
-       ▼
-Traffic moves to new version
-```
-
-This allows new application versions to be deployed without intentionally taking all backend replicas offline.
-
----
-
-# 🌐 Ingress Routing
-
-NGINX Ingress Controller manages external application routing.
-
-Host:
-
-```text
-ecommerce.local
-```
-
-Routes:
-
-```text
-/api/*  → backend:5000
-
-/*      → frontend:80
-```
-
-Traffic flow:
-
-```text
-User
- │
- ▼
-NGINX Ingress
- │
- ├──── / ──────► Frontend
- │
- └──── /api ───► Backend
-                       │
-                       ▼
-                   PostgreSQL
-```
-
----
-
 # 🧰 Local Development
 
 ## Prerequisites
 
-* Docker
-* Kubernetes
-* kubectl
-* Helm
-* Git
-* Node.js 22
+- Docker
+- Kubernetes
+- kubectl
+- Helm
+- Git
+- Node.js 22
+- Minikube
 
-For local Kubernetes development, the project can be deployed using Minikube.
+## Start Minikube
 
----
+```bash
+minikube start --driver=docker
+```
 
-## Deploy with Helm
-
-Create the namespace:
+## Create Namespace
 
 ```bash
 kubectl create namespace ecommerce
 ```
 
-Install the chart:
+## Deploy with Helm
 
 ```bash
-helm install ecommerce ./helm/ecommerce \
-  -n ecommerce
+helm install ecommerce ./helm/ecommerce -n ecommerce
 ```
 
-Check the workloads:
+## Check Workloads
 
 ```bash
 kubectl get pods -n ecommerce
-```
-
-Check services:
-
-```bash
 kubectl get svc -n ecommerce
-```
-
-Check HPA:
-
-```bash
 kubectl get hpa -n ecommerce
+kubectl get ingress -n ecommerce
 ```
 
 ---
 
 # 🔄 GitOps Deployment
 
-ArgoCD is configured to monitor:
+The ArgoCD Application monitors:
 
 ```text
 GitHub Repository
       ↓
 helm/ecommerce
+      ↓
+ArgoCD
+      ↓
+ecommerce namespace
 ```
 
-The desired state is stored in Git, while ArgoCD continuously reconciles the Kubernetes cluster with that state.
+The deployment model is:
 
 ```text
 Git = Desired State
@@ -686,21 +666,21 @@ Kubernetes = Current State
 ArgoCD = Reconciliation Engine
 ```
 
-The ArgoCD Application uses:
+Application:
 
 ```text
-Application: cloudcommerce
-Source:      helm/ecommerce
-Branch:      main
-Namespace:   ecommerce
-Sync:        Automatic
+Name:       cloudcommerce
+Source:     helm/ecommerce
+Branch:     main
+Namespace:  ecommerce
+Sync:       Automatic
 ```
 
 ---
 
 # 🧪 Verification
 
-Useful commands:
+Useful Kubernetes commands:
 
 ```bash
 kubectl get pods -n ecommerce
@@ -728,10 +708,10 @@ Check the deployed image:
 
 ```bash
 kubectl get deployment backend -n ecommerce \
-  -o jsonpath='{.spec.template.spec.containers[0].image}{"\n"}'
+  -o jsonpath='{.spec.template.spec.containers[0].image}{"\\n"}'
 ```
 
-Check ArgoCD application:
+Check ArgoCD:
 
 ```bash
 argocd app get cloudcommerce
@@ -741,47 +721,20 @@ argocd app get cloudcommerce
 
 # 🗺️ Future Improvements
 
-The current version focuses on **CI/CD, GitOps, Kubernetes security, and automated application delivery**.
+The current implementation focuses on **CI/CD, GitOps, Kubernetes security, and automated application delivery**.
 
-Planned extensions include:
+Planned extensions:
 
-```text
-Prometheus
-    ↓
-Grafana
-    ↓
-Metrics & Dashboards
+- 📊 Prometheus + Grafana — monitoring and dashboards
+- 📝 Loki + Promtail — centralized logging
+- 🚨 Alertmanager — alerting
+- 🔒 cert-manager + Let's Encrypt — TLS automation
+- 🛡️ Kyverno — Kubernetes policy enforcement
+- 💾 Velero — backup and disaster recovery
+- 🔐 Vault — advanced secrets management
+- 📨 RabbitMQ — message-based communication
 
-Loki + Promtail
-    ↓
-Centralized Logging
-
-Alertmanager
-    ↓
-Alerting
-
-cert-manager
-    ↓
-TLS / Let's Encrypt
-
-Kyverno
-    ↓
-Kubernetes Policy Enforcement
-
-Velero
-    ↓
-Backup & Disaster Recovery
-
-Vault
-    ↓
-Advanced Secrets Management
-
-RabbitMQ
-    ↓
-Message-Based Communication
-```
-
-These components are planned extensions and are **not part of the currently deployed architecture**.
+These are planned extensions and are **not part of the currently deployed architecture**.
 
 ---
 
@@ -789,29 +742,46 @@ These components are planned extensions and are **not part of the currently depl
 
 CloudCommerce was built to demonstrate practical experience with:
 
-* Containerization
-* Kubernetes orchestration
-* Helm-based deployments
-* CI/CD automation
-* GitOps
-* Private container registries
-* Code quality and security scanning
-* Kubernetes RBAC
-* Network segmentation
-* Health checks
-* Horizontal autoscaling
-* Rolling deployments
-* Deployment automation
-* Git-based release traceability
+- Containerization
+- Kubernetes orchestration
+- Helm
+- CI/CD automation
+- GitOps
+- Private container registries
+- SonarQube
+- Kubernetes RBAC
+- Network segmentation
+- Health checks
+- Horizontal autoscaling
+- Rolling deployments
+- Deployment automation
+- Git-based release traceability
 
-The project is intentionally designed around a **realistic DevOps workflow**, where every deployment can be traced from a Git commit to the running Kubernetes workload.
+The project is intentionally designed around a realistic DevOps workflow:
+
+```text
+Code
+ ↓
+Test
+ ↓
+Analyze
+ ↓
+Build
+ ↓
+Push
+ ↓
+Update Git
+ ↓
+GitOps
+ ↓
+Deploy
+```
 
 ---
 
 # 👨‍💻 Author
 
 **Seif Khaled**
-
 
 DevOps / Cloud Engineering
 
@@ -823,5 +793,4 @@ GitHub: **Seif-k123**
 
 > **Code → Test → Analyze → Build → Push → GitOps → Deploy**
 
-A practical Cloud-Native DevOps project built to demonstrate how modern development and operations workflows can work together.
-
+A practical Cloud-Native DevOps project demonstrating how modern development and operations workflows can work together.
