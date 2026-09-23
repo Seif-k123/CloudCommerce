@@ -342,7 +342,12 @@ Docker Image
 Kubernetes Deployment
 ```
 
+
 Nexus is hosted separately from the Kubernetes cluster.
+
+
+
+<img width="1862" height="525" alt="image" src="https://github.com/user-attachments/assets/3e5e3a03-4792-4dd3-b290-325b61992b4a" />
 
 ---
 
