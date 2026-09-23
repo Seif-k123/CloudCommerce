@@ -108,9 +108,9 @@ This provides a clean separation between CI and CD.
 
 ### 📸 ArgoCD Dashboard
 
-<p align="center">
-  <img src="docs/images/argocd-dashboard.png" alt="CloudCommerce ArgoCD Dashboard" width="90%">
-</p>
+
+<img width="1858" height="922" alt="image" src="https://github.com/user-attachments/assets/ce5b3866-cf4e-441d-a6ee-2b16cad1b740" />
+
 
 ---
 
