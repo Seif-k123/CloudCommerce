@@ -28,6 +28,9 @@ spec:
       nodeSelector:
         {{- toYaml .Values.backend.nodeSelector | nindent 8 }}
 
+      imagePullSecrets:
+        {{- toYaml .Values.backend.imagePullSecrets | nindent 8 }}
+
       serviceAccountName: {{ .Values.backend.serviceAccount.name }}
 
       terminationGracePeriodSeconds: 30

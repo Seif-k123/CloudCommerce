@@ -2,9 +2,12 @@ backend:
   replicas: 2
 
   image:
-    repository: ecommerce-backend
-    tag: v3
+    repository: 107.21.92.37:8082/ecommerce-backend
+    tag: v4
     pullPolicy: IfNotPresent
+
+  imagePullSecrets:
+    - name: nexus-registry-secret
 
   service:
     type: ClusterIP
