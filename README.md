@@ -46,7 +46,7 @@ GitHub Actions
 
 ### 📐 Architecture Diagram
 
-> **Image location in the repository:** `docs/images/cloudcommerce-architecture.png`
+> **Image location in the repository:** 
 
 <img width="1531" height="1829" alt="CloudCommerce Architecture" src="https://github.com/user-attachments/assets/f285055d-ef46-46ce-9a47-e6e8cd26c146" />
 
