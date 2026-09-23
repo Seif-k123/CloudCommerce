@@ -2,7 +2,7 @@ backend:
   replicas: 2
   image:
     repository: 107.21.92.37:8082/ecommerce-backend
-    tag: e3678bdccaf84ae56c136df63ea132bf76941c60
+    tag: 5b06e159e648e416877d1d1afbda5f7ac7dcfc1f
     pullPolicy: IfNotPresent
   imagePullSecrets:
     - name: nexus-registry-secret
